@@ -1,6 +1,6 @@
 require "net/http"
 
-module AppleApiClient
+class AppleApiClient
   def api_call(url, token)
     uri = URI.parse(url)
 
