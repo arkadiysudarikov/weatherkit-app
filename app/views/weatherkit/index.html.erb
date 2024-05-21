@@ -15,7 +15,7 @@
 
         <div>Zip Code: <%= @mapkit["structuredAddress"]["postCode"].presence || 'N/A' %></div>
 
-        <div>Weather: <%= @weather["currentWeather"]["temperature"].to_fahrenheit %>  F  </div>
+        <div>Weather: <%= @weather["currentWeather"]["temperature"].to_fahrenheit %> F </div>
 
         <div>Cached: <%= @mapkit["structuredAddress"]["postCode"].present? ? !@cache_miss ? '🟢' : '🔴' : 'N/A (no Zip Code)' %></div>
 
@@ -34,8 +34,8 @@
               <tr>
                 <td><%= day["forecastStart"].to_date %></td>
                 <td><%= day["forecastEnd"].to_date %></td>
-                <td><%= day["temperatureMin"].to_fahrenheit %></td>
-                <td><%= day["temperatureMax"].to_fahrenheit %></td>
+                <td><%= day["temperatureMin"].to_fahrenheit %> F </td>
+                <td><%= day["temperatureMax"].to_fahrenheit %>< F /td>
               </tr>
             <% end %>
           </tbody>
