@@ -10,6 +10,6 @@ end
 
 class Float
   def to_fahrenheit
-    ((self * 9 / 5) + 32).round(2)
+    ((self * 9 / 5) + 32).round(0)
   end
 end

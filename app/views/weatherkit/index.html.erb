@@ -24,17 +24,18 @@
         <table>
           <thead>
             <tr>
-              <th colspan="2">Date Range</th>
-              <th>Min</th>
-              <th>Max</th>
+              <th colspan="2">&nbsp;</th>
+              <th align="right">High</th>
+              <th>/</th>
+              <th align="left">Low</th>
             </tr>
           </thead>
           <tbody>
             <% @weather["forecastDaily"]["days"].each do |day| %>
               <tr>
-                <td><%= day["forecastStart"].to_date %></td>
-                <td><%= day["forecastEnd"].to_date %></td>
-                <td><%= day["temperatureMin"].to_fahrenheit %> F </td>
+                <td colspan="2"><%= day["forecastStart"].to_date.strftime('%a') %></td>
+                <td align="right"><%= day["temperatureMin"].to_fahrenheit %></td>
+                <td>/</td>
                 <td><%= day["temperatureMax"].to_fahrenheit %> F </td>
               </tr>
             <% end %>
