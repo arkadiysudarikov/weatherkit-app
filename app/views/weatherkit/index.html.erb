@@ -17,7 +17,7 @@
 
         <div>Weather: <%= @weather["currentWeather"]["temperature"].to_fahrenheit %>  F  </div>
 
-        <div>Cached: <%= @mapkit["structuredAddress"]["postCode"].present? ? !@cache_miss ? '✅' : '❌' : 'N/A (no Zip Code)' %></div>
+        <div>Cached: <%= @mapkit["structuredAddress"]["postCode"].present? ? !@cache_miss ? '🟢' : '🔴' : 'N/A (no Zip Code)' %></div>
 
       </section>
       <pre>
