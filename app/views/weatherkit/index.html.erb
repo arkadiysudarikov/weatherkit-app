@@ -12,7 +12,26 @@
 
     Cache Miss: <%= @cache_miss.inspect %>
 
-    <%= @weather.inspect %>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Date Range</th>
+          <th>Min</th>
+          <th>Max</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @weather["forecastDaily"]["days"].each do |day| %>
+          <tr>
+            <td><%= day["forecastStart"].to_date %></td>
+            <td><%= day["forecastEnd"].to_date %></td>
+            <td><%= day["temperatureMin"].inspect %></td>
+            <td><%= day["temperatureMax"].inspect %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table
 
 <% end %>
 
