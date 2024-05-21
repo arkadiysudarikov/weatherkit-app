@@ -1,38 +1,16 @@
-require "jwt"
-require "openssl"
-
 class WeatherkitController < ApplicationController
+  include MapKit
+  include WeatherKit
+
   # CACHE_EXPIRATION = 30.0.minutes
   CACHE_EXPIRATION = 10.0.seconds
 
   def index
     if params[:address].present?
-      private_key = Rails.application.credentials.apple.private_key
-      team_id = Rails.application.credentials.apple.team_id
-      key_id = Rails.application.credentials.apple.key_id
-      service_id = Rails.application.credentials.apple.service_id
+      @mapkit = mapkit
 
-      jwt = JWT.encode({
-        iss: team_id,
-        iat: Time.now.to_i,
-        exp: 30.minutes.from_now.to_i,
-        sub: service_id
-      },
-      OpenSSL::PKey::EC.new("-----BEGIN PRIVATE KEY-----\n#{private_key}\n-----END PRIVATE KEY-----"),
-      "ES256",
-      {
-        kid: key_id,
-        id: "#{team_id}.#{service_id}"
-      })
-
-      @token = api_call("https://maps-api.apple.com/v1/token", jwt)
-
-      token = @token["accessToken"]
-
-      @mapkit = api_call("https://maps-api.apple.com/v1/geocode?q=#{params[:address]}", token)
-
-      longitude = @mapkit["results"][0]["coordinate"]["longitude"]
       latitude = @mapkit["results"][0]["coordinate"]["latitude"]
+      longitude = @mapkit["results"][0]["coordinate"]["longitude"]
 
       @zipcode = @mapkit["results"][0]["structuredAddress"]["postCode"]
 
@@ -43,10 +21,10 @@ class WeatherkitController < ApplicationController
         Rails.cache.fetch(@zipcode, expires_in: CACHE_EXPIRATION) do
           @cache_miss = true
 
-          api_call("https://weatherkit.apple.com/api/v1/weather/en/#{latitude}/#{longitude}?dataSets=currentWeather%2CforecastDaily&timezone=America%2FLos_Angeles", jwt)
+          weatherkit(latitude, longitude)
         end
       else
-        api_call("https://weatherkit.apple.com/api/v1/weather/en/#{latitude}/#{longitude}?dataSets=currentWeather%2CforecastDaily&timezone=America%2FLos_Angeles", jwt)
+        weatherkit(latitude, longitude)
       end
     end
   end
@@ -55,20 +33,5 @@ class WeatherkitController < ApplicationController
 
   def weatherkit_params
     params.permit(:address)
-  end
-
-  def api_call(url, token)
-    uri = URI.parse(url)
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.start
-
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request.add_field("Authorization", "Bearer #{token}")
-
-    response = http.request(request)
-
-    JSON.parse(response.body)
   end
 end
