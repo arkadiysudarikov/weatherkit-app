@@ -1,38 +1,48 @@
-<%= form_with url: "/", method: :get do |form| %>
-  <%= form.label :address, "Address:" %>
-  <%= form.search_field :address, placeholder: "Cupertino, CA", required: true, value: params[:address] %>
-  <%= form.submit "Forecast" %>
-<% end %>
+<article>
+  <section>
+    <h1>WeatherKit</h1>
+    <div>
+      <%= form_with url: "/", method: :get do |form| %>
+        <%= form.label :address, "Address:" %>
+        <%= form.search_field :address, placeholder: "Cupertino, CA", required: true, value: params[:address] %>
+        <%= form.submit "Forecast" %>
+      <% end %>
+    </div>
+  </section>
+  <% if @mapkit %>
+    <section>
+      <section>
 
-<% if @mapkit %>
+        <div>Zip Code: <%= @mapkit["structuredAddress"]["postCode"].presence || 'N/A' %></div>
 
-    Zip Code: <%= @mapkit["structuredAddress"]["postCode"].inspect %>
+        <div>Weather: <%= @weather["currentWeather"]["temperature"].to_fahrenheit %>  F  </div>
 
-    Weather: <%= @weather["currentWeather"]["temperature"].inspect %>
+        <div>Cached: <%= @mapkit["structuredAddress"]["postCode"].present? ? !@cache_miss ? '✅' : '❌' : 'N/A (no Zip Code)' %></div>
 
-    Cache Miss: <%= @cache_miss.inspect %>
-
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Date Range</th>
-          <th>Min</th>
-          <th>Max</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @weather["forecastDaily"]["days"].each do |day| %>
-          <tr>
-            <td><%= day["forecastStart"].to_date %></td>
-            <td><%= day["forecastEnd"].to_date %></td>
-            <td><%= day["temperatureMin"].inspect %></td>
-            <td><%= day["temperatureMax"].inspect %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table
-
-<% end %>
+      </section>
+      <pre>
+        <table>
+          <thead>
+            <tr>
+              <th colspan="2">Date Range</th>
+              <th>Min</th>
+              <th>Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @weather["forecastDaily"]["days"].each do |day| %>
+              <tr>
+                <td><%= day["forecastStart"].to_date %></td>
+                <td><%= day["forecastEnd"].to_date %></td>
+                <td><%= day["temperatureMin"].to_fahrenheit %></td>
+                <td><%= day["temperatureMax"].to_fahrenheit %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </pre>
+    </section>
+  <% end %>
+</article>
 
 <aside data-v-0ca053f3="" aria-label="important" class="important"><p data-v-0ca053f3="" class="label">Important</p><p data-v-0ca053f3="">Using this API requires attribution. See <a href="https://developer.apple.com/weatherkit/data-source-attribution/" class="inline-link" data-v-0ca053f3="">WeatherKit - Data Sources</a> to learn more.</p></aside>
