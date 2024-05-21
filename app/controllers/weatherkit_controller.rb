@@ -9,8 +9,7 @@ class WeatherkitController < ApplicationController
     if params[:address].present?
       @mapkit = mapkit
 
-      latitude = @mapkit["results"][0]["coordinate"]["latitude"]
-      longitude = @mapkit["results"][0]["coordinate"]["longitude"]
+      (latitude, longitude) = @mapkit["results"][0]["coordinate"]["latitude"], @mapkit["results"][0]["coordinate"]["longitude"]
 
       @zipcode = @mapkit["results"][0]["structuredAddress"]["postCode"]
 
