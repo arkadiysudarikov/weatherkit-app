@@ -1,0 +1,17 @@
+<%= form_with url: "/", method: :get do |form| %>
+  <%= form.label :address, "Address:" %>
+  <%= form.search_field :address, placeholder: "Cupertino, CA", required: true, value: params[:address] %>
+  <%= form.submit "Forecast" %>
+<% end %>
+
+<% if @mapkit %>
+
+    MapKit: <%= @mapkit["results"][0]["structuredAddress"]["postCode"] %>
+
+    Weather: <%= @weather["currentWeather"]["temperature"] %>
+
+    Cache Miss: <%= @cache_miss.inspect %>
+
+<% end %>
+
+<aside data-v-0ca053f3="" aria-label="important" class="important"><p data-v-0ca053f3="" class="label">Important</p><p data-v-0ca053f3="">Using this API requires attribution. See <a href="https://developer.apple.com/weatherkit/data-source-attribution/" class="inline-link" data-v-0ca053f3="">WeatherKit - Data Sources</a> to learn more.</p></aside>
