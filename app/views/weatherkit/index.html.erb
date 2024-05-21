@@ -6,9 +6,9 @@
 
 <% if @mapkit %>
 
-    MapKit: <%= @mapkit["results"][0]["structuredAddress"]["postCode"] %>
+    MapKit: <%= @mapkit["results"][0]["structuredAddress"]["postCode"].inspect %>
 
-    Weather: <%= @weather["currentWeather"]["temperature"] %>
+    Weather: <%= @weather["currentWeather"]["temperature"].inspect %>
 
     Cache Miss: <%= @cache_miss.inspect %>
 
