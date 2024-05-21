@@ -1,6 +1,3 @@
-require "jwt"
-require "openssl"
-
 class WeatherkitController < ApplicationController
   include MapKit
   include WeatherKit
