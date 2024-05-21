@@ -6,7 +6,7 @@
 
 <% if @mapkit %>
 
-    Zip Code: <%= @mapkit["results"][0]["structuredAddress"]["postCode"].inspect %>
+    Zip Code: <%= @mapkit["structuredAddress"]["postCode"].inspect %>
 
     Weather: <%= @weather["currentWeather"]["temperature"].inspect %>
 

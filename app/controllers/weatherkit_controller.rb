@@ -7,12 +7,11 @@ class WeatherkitController < ApplicationController
 
   def index
     if params[:address].present?
-      @mapkit = mapkit
+      @mapkit = mapkit(params[:address])
 
-      latitude = @mapkit["results"][0]["coordinate"]["latitude"]
-      longitude = @mapkit["results"][0]["coordinate"]["longitude"]
+      (latitude, longitude) = @mapkit["coordinate"]["latitude"], @mapkit["coordinate"]["longitude"]
 
-      @zipcode = @mapkit["results"][0]["structuredAddress"]["postCode"]
+      @zipcode = @mapkit["structuredAddress"]["postCode"]
 
       @weather = if @zipcode.present?
 
