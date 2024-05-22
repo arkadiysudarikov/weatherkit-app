@@ -2,8 +2,7 @@ class WeatherkitController < ApplicationController
   include MapKit
   include WeatherKit
 
-  # CACHE_EXPIRATION = 30.0.minutes
-  CACHE_EXPIRATION = 10.0.seconds
+  CACHE_EXPIRATION = 30.0.minutes
 
   def index
     if params[:address].present?
